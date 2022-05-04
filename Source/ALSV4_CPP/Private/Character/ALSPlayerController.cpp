@@ -95,6 +95,8 @@ void AALSPlayerController::SetupInputs()
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 		{
+			Subsystem->ClearAllMappings();
+			
 			FModifyContextOptions Options;
 			Options.bForceImmediately = 1;
 			Subsystem->AddMappingContext(DefaultInputMappingContext, 1, Options);
