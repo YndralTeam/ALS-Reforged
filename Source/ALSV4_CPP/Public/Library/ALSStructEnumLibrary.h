@@ -285,6 +285,9 @@ private:
 	bool Default_ = true;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true), Category = "ALS|Character States")
+	bool Katana_ = false;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true), Category = "ALS|Character States")
 	bool Masculine_ = false;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = true), Category = "ALS|Character States")
@@ -328,6 +331,7 @@ public:
 	FALSOverlayState(const EALSOverlayState InitialState) { *this = InitialState; }
 
 	const bool& Default() const { return Default_; }
+	const bool& Katana() const { return Katana_; }
 	const bool& Masculine() const { return Masculine_; }
 	const bool& Feminine() const { return Feminine_; }
 	const bool& Injured() const { return Injured_; }
@@ -347,6 +351,7 @@ public:
 	{
 		State = NewAction;
 		Default_ = State == EALSOverlayState::Default;
+		Katana_ = State == EALSOverlayState::Katana;
 		Masculine_ = State == EALSOverlayState::Masculine;
 		Feminine_ = State == EALSOverlayState::Feminine;
 		Injured_ = State == EALSOverlayState::Injured;

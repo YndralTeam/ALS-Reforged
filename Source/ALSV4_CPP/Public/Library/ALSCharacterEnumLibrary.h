@@ -65,6 +65,7 @@ UENUM(BlueprintType)
 enum class EALSOverlayState : uint8
 {
 	Default,
+	Katana,
 	Masculine,
 	Feminine,
 	Injured,
