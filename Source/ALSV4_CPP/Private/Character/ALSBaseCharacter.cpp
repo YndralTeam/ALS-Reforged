@@ -117,6 +117,13 @@ void AALSBaseCharacter::BeginPlay()
 	MyCharacterMovementComponent->SetMovementSettings(GetTargetMovementSettings());
 
 	ALSDebugComponent = FindComponentByClass<UALSDebugComponent>();
+
+	// determine if this is player or ai controlled
+	if (Cast<APlayerController>(GetController())) {
+		bIsAIControlled = false;
+	} else {
+		bIsAIControlled = true;
+	}
 }
 
 void AALSBaseCharacter::Tick(float DeltaTime)
@@ -557,6 +564,11 @@ bool AALSBaseCharacter::CanSprint() const
 	// Determine if the character is currently able to sprint based on the Rotation mode and current acceleration
 	// (input) rotation. If the character is in the Looking Rotation mode, only allow sprinting if there is full
 	// movement input and it is faced forward relative to the camera + or - 50 degrees.
+
+	if (bIsAIControlled)
+	{
+		return true;
+	}
 
 	if (!bHasMovementInput || RotationMode == EALSRotationMode::Aiming)
 	{
@@ -1090,6 +1102,21 @@ void AALSBaseCharacter::UpdateGroundedRotation(float DeltaTime)
 		if (!bEnableNetworkOptimizations && bHasMovementInput)
 		{
 			SmoothCharacterRotation({0.0f, LastMovementInputRotation.Yaw, 0.0f}, 0.0f, 2.0f, DeltaTime);
+		}
+	}
+	else if (MovementAction == EALSMovementAction::Attacking)
+	{
+		if (bIsAIControlled)
+		{
+			SmoothCharacterRotation({0.f, GetControlRotation().Yaw, 0.0f}, 0.0f, 15.0f, DeltaTime);
+		}
+		else if ((RotationMode == EALSRotationMode::LookingDirection) || (RotationMode == EALSRotationMode::Aiming))
+		{
+			SmoothCharacterRotation({0.0f, GetControlRotation().Yaw, 0.0f}, 0.0f, 15.0f, DeltaTime);
+		}
+		else if (bHasMovementInput)
+		{
+			SmoothCharacterRotation({0.0f, LastMovementInputRotation.Yaw, 0.0f}, 0.0f, 15.0f, DeltaTime);
 		}
 	}
 

@@ -476,6 +476,9 @@ protected:
 	bool bHasMovementInput = false;
 
 	UPROPERTY(BlueprintReadOnly, Category = "ALS|Essential Information")
+	bool bIsAIControlled = false;
+
+	UPROPERTY(BlueprintReadOnly, Category = "ALS|Essential Information")
 	FRotator LastVelocityRotation;
 
 	UPROPERTY(BlueprintReadOnly, Category = "ALS|Essential Information")
@@ -522,7 +525,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "ALS|State Values")
 	EALSMovementAction MovementAction = EALSMovementAction::None;
 
-	UPROPERTY(BlueprintReadOnly, Category = "ALS|State Values", ReplicatedUsing = OnRep_RotationMode)
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "ALS|State Values", ReplicatedUsing = OnRep_RotationMode)
 	EALSRotationMode RotationMode = EALSRotationMode::VelocityDirection;
 
 	UPROPERTY(BlueprintReadOnly, Category = "ALS|State Values")
